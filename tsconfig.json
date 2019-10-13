@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "outDir": "./dist",
+        "target": "es6",
+        "lib": ["esnext.bigint", "dom"],
+        "noImplicitAny": true,
+        "alwaysStrict": true,
+        "strictNullChecks": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "strict": true,
+        "declaration": true,
+        "sourceMap": true,
+        "esModuleInterop": true,
+        "moduleResolution": "node"
+        // "module": "commonjs"
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}

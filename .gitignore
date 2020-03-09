@@ -2,3 +2,4 @@ node_modules
 dist
 test/__snapshots__
 .vscode
+coverage/

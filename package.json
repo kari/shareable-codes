@@ -14,14 +14,13 @@
     "typescript": "^3.8.2"
   },
   "scripts": {
-    "serve": "npx light-server -s . -p 9090 ",
+    "serve": "yarn run light-server -s . -p 9090 ",
     "test": "jest",
     "coverage": "jest --coverage",
     "build-ts": "tsc",
-    "build": "npm run build-ts",
-    "start": "npm run serve"
+    "build": "yarn run build-ts",
+    "start": "yarn run serve"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/kari/shareable-codes.git"

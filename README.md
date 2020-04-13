@@ -4,7 +4,7 @@ Use Crockford's Base32 idea with zBase32 alphabet order with Damm checksum digit
 
 ## How to run
 
-If you have `npm` installed just run `npm run serve` and the javascript version is available at http://localhost:9090/
+If you have `yarn` installed just run `yarn run serve` and the javascript version is available at http://localhost:9090/
 
 If you have Docker installed, you can build and run the image instead
 

@@ -1,10 +1,11 @@
-import { decode, encode, MAX_NUMBER } from './shareable-codes.js';
+import { decode, encode, MAX_NUMBER } from './shareable-codes.ts';
 
-let inputEncode = <HTMLInputElement>document.getElementById("inputEncode")!;
-let inputDecode = <HTMLInputElement>document.getElementById("inputDecode")!;
+const inputEncode = <HTMLInputElement>document.getElementById("inputEncode")!;
+const inputDecode = <HTMLInputElement>document.getElementById("inputDecode")!;
 
 function encodeInput() {
-    let input = Number(inputEncode.value);
+    const input = Number(inputEncode.value);
+    var result;
     if (input < 1 || input >= MAX_NUMBER) {
         inputEncode.className = "form-control is-invalid";
         inputDecode.value = "";
@@ -14,7 +15,7 @@ function encodeInput() {
         inputDecode.className = "form-control";
     }
     try {
-        var result = encode(input);
+        result = encode(input);
     }
     catch(error) {
         console.error(error);
@@ -27,14 +28,15 @@ function encodeInput() {
 }
 
 function decodeInput() {
-    let input = inputDecode.value;
+    const input = inputDecode.value;
+    var result;
     if (input.length < 8 || input.length > 9) {
         inputDecode.className = "form-control is-invalid";
         inputEncode.value = "";
         return;
     }
     try {
-        var result = decode(input);
+        result = decode(input);
     }
     catch(error) {
         console.error(error);

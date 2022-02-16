@@ -1,69 +1,58 @@
-import { encode, decode } from "../src/shareable-codes";
+import { encode, decode } from "../src/shareable-codes.ts"
+import { assertEquals, assertThrows } from "https://deno.land/std@0.106.0/testing/asserts.ts";
 
-describe('Encoder', () => {
+Deno.test('encodes 123456 to DD7D-96YY', () => {
+    assertEquals(encode(123456), "DD7D-96YY");
+});
+Deno.test('throws on too large value', () => {
+    assertThrows(() => {
+        encode(34359738368);
+    });
+});    
 
-    it('encodes 123456 to DD7D-96YY', () => {
-        let result = encode(123456);
-        expect(result).toBe("DD7D-96YY");
-    })
-
-    it('throws on too large value', () => {
-        expect(() => {
-            encode(34359738368);
-          }).toThrow();
-    })
-
-    it('handles close to max value', () => {
-        expect(encode(34359738368-1)).toHaveLength(9);
-    })
-
-    it('throws on invalid input', () => {
-        expect(() => {
-            encode(0);
-        }).toThrow();
-        expect(() => {
-            encode(-1);
-        }).toThrow();
-    })
-
-
+Deno.test('handles close to max value', () => {
+    assertEquals(encode(34359738368-1).length, 9);
 });
 
-describe('Decoder', () => {
-    it('decodes DD7D-96YY to 123456', () => {
-        let result = decode('DD7D-96YY');
-        expect(result).toBe(123456);
-    })
-
-    it('decodes to encoded value', () => {
-        expect(decode(encode(123456))).toBe(123456);
-        expect(decode(encode(1))).toBe(1);
-        expect(decode(encode(34359738368-1))).toBe(34359738368-1);
-    })
-
-    it('handles lowercase and dashless input', () => {
-        expect(decode('dd7d96yy')).toBe(123456);
-    })
-
-    it('handles ambigious characters', () => {
-        expect(decode('6IYE-EOF4')).toBe(83);
-        expect(decode('6lYE-EoF4')).toBe(83);
-    })
-
-    it('throws on checksum fail', () => {
-        expect(() => {
-            decode('DD7D-96YX')
-          }).toThrow();
-    })
-
-    it('throws on invalid input', () => {
-        expect(() => {
-            decode('AOE0UI')
-          }).toThrow();
-          expect(() => {
-            decode('')
-          }).toThrow();
-    })
-
+Deno.test('throws on invalid input', () => {
+    assertThrows(() => {
+        encode(0);
+    });
+    assertThrows(() => {
+        encode(-1);
+    });
 });
 
+Deno.test('decodes DD7D-96YY to 123456', () => {
+    assertEquals(decode('DD7D-96YY'), 123456);
+});
+
+Deno.test('decodes to encoded value', () => {
+    assertEquals(decode(encode(123456)), 123456);
+    assertEquals(decode(encode(1)), 1);
+    assertEquals(decode(encode(34359738368-1)), 34359738368-1);
+})
+
+Deno.test('handles lowercase and dashless input', () => {
+    assertEquals(decode('dd7d96yy'),123456);
+})
+
+Deno.test('handles ambigious characters', () => {
+    assertEquals(decode('6IYE-EOF4'), 83);
+    assertEquals(decode('6lYE-EoF4'), 83);
+})
+
+Deno.test('throws on checksum fail', () => {
+    assertThrows(() => {
+        decode('DD7D-96YX');
+    });
+});
+
+Deno.test('throws on invalid input', () => {
+    assertThrows(() => {
+        decode('AOE0UI');
+    });
+    assertThrows(() => {
+        decode('');
+    });
+});

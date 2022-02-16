@@ -3,7 +3,7 @@
  */ 
 const SYMBOLS = 'YBNDRFG8EJKMCPQX0T1VW2SZA345H769'; // zrockford32
 const VALID_SYMBOLS = new RegExp('^[' + SYMBOLS + ']+$');
-let DECODE_TABLE: { [symbol: string]: number; } = {};
+const DECODE_TABLE: { [symbol: string]: number; } = {};
 for (let i = 0; i < SYMBOLS.length; i++) {
     DECODE_TABLE[SYMBOLS[i]] = i;
 }
@@ -41,9 +41,7 @@ const MULINV = BigInt('1393193079');
  * - https://planetcalc.com/3311/
  */
 function bitmask(n: bigint): bigint {
-    let ret = (n * COPRIME) % MAX_NUMBER;
-
-    return ret;
+    return (n * COPRIME) % MAX_NUMBER;
 }
 
 /**
@@ -54,9 +52,7 @@ function bitmask(n: bigint): bigint {
  * 
  */
 function unbitmask(h: bigint): bigint {
-    let ret = (h * MULINV) % MAX_NUMBER;
-
-    return ret;
+    return (h * MULINV) % MAX_NUMBER;
 }
 
 /**
@@ -72,7 +68,7 @@ function unbitmask(h: bigint): bigint {
 function damm32(digits: number[]): number {
     let checksum = 0;
     for (let i = 0; i < digits.length; i++) {
-        let digit: number = digits[i];
+        const digit: number = digits[i];
         checksum ^= digit;
         checksum <<= 1;
         if (checksum >= 32) { checksum ^= 37; }
@@ -110,12 +106,12 @@ function toString(digits: number[]): string {
  * @returns a normalized string
  */
 function normalize(str: string): string {
-    let norm_str = str.toUpperCase().replace(/-/g, '').replace(/[IL]/g, '1').replace(/O/g, '0');
-    if (!VALID_SYMBOLS.test(norm_str)) {
-        throw "string '" + norm_str + "' contains invalid characters";
+    const normStr = str.toUpperCase().replace(/-/g, '').replace(/[IL]/g, '1').replace(/O/g, '0');
+    if (!VALID_SYMBOLS.test(normStr)) {
+        throw Error("string '" + normStr + "' contains invalid characters");
     }
 
-    return norm_str;
+    return normStr;
 }
 
 /**
@@ -127,7 +123,7 @@ function normalize(str: string): string {
 function fromArray(arr: number[]): bigint {
     let n = BigInt(0);
     let pow = BigInt(1);
-    let base = BigInt(32);
+    const base = BigInt(32);
     for (let i = arr.length - 1; i >= 0; i--) {
         n += BigInt(arr[i]) * pow; 
         pow = pow * base;
@@ -143,12 +139,12 @@ function fromArray(arr: number[]): bigint {
  * @retunrns an array of integers in Base32
  */
 function toArray(n: bigint): number[] {
-    let ret: number[] = [];
-    let base = BigInt(32);
+    const ret: number[] = [];
+    const base = BigInt(32);
     let left = n;
 
     while (left >= base) {
-        let remainder = left % base;
+        const remainder = left % base;
         left = left / base;
         ret.push(Number(remainder)); 
     }
@@ -165,19 +161,19 @@ function toArray(n: bigint): number[] {
  */
 export function encode(n: number): string {
     if (n >= MAX_NUMBER) {
-        throw "Number is too large";
+        throw RangeError("Number is too large");
     } else if (n <= 0) {
-        throw "Number has to be a positive integer";
+        throw RangeError("Number has to be a positive integer");
     }
 
-    let digits = toArray(bitmask(BigInt(n)));
+    const digits = toArray(bitmask(BigInt(n)));
 
     while (digits.length < 5) {
         digits.unshift(0);
     }
     digits.push(damm32(digits));
 
-    let code = toString(digits);
+    const code = toString(digits);
     
     return [code.slice(0,4), code.slice(4,8)].join("-");
 }
@@ -189,19 +185,18 @@ export function encode(n: number): string {
  * @returns a number
  */
 export function decode(input: string): number {
-    let str = normalize(input);
-    let digits: number[] = [];
+    const str = normalize(input);
+    const digits: number[] = [];
 
     for (let i = 0; i < str.length; i++) {
         digits.push(DECODE_TABLE[str[i]]);
     }
     
     if (damm32(digits) != 0) {
-        throw "invalid check value '" + SYMBOLS[digits[digits.length-1]] + "' for string '" +  str + "'";
+        throw Error("invalid check value '" + SYMBOLS[digits[digits.length-1]] + "' for string '" +  str + "'");
     }
 
     digits.pop();
-    let number = unbitmask(fromArray(digits));
 
-    return Number(number);
+    return Number(unbitmask(fromArray(digits)));
 }

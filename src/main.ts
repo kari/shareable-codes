@@ -5,7 +5,7 @@ const inputDecode = <HTMLInputElement>document.getElementById("inputDecode")!;
 
 function encodeInput() {
     const input = Number(inputEncode.value);
-    var result;
+    let result;
     if (input < 1 || input >= MAX_NUMBER) {
         inputEncode.className = "form-control is-invalid";
         inputDecode.value = "";
@@ -29,7 +29,7 @@ function encodeInput() {
 
 function decodeInput() {
     const input = inputDecode.value;
-    var result;
+    let result;
     if (input.length < 8 || input.length > 9) {
         inputDecode.className = "form-control is-invalid";
         inputEncode.value = "";

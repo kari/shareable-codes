@@ -80,7 +80,9 @@ if (mode === "encode") {
 	}
 } else {
 	try {
-		console.log(decode(value));
+		// String(): a bare number would be ANSI-colorized by util.inspect
+		// when a color-forcing env var (e.g. FORCE_COLOR) is set
+		console.log(String(decode(value)));
 	} catch (error) {
 		if (error instanceof ChecksumError) {
 			console.error(`'${value}' failed the checksum — probably a typo?`);

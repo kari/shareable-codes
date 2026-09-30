@@ -12,12 +12,16 @@
     }
   },
   "files": [
+    "cli.js",
     "dist/shareable-codes.js",
     "dist/shareable-codes.d.ts",
     "README.md",
     "LICENSE"
   ],
   "sideEffects": false,
+  "bin": {
+    "shareable-codes": "./cli.js"
+  },
   "engines": {
     "node": ">=20"
   },
@@ -29,7 +33,7 @@
     "build": "npm run build:lib && npm run build:demo",
     "serve": "node serve.mjs",
     "start": "npm run serve",
-    "prepublishOnly": "npm test && npm run build:lib"
+    "prepublishOnly": "npm run build:lib && npm test"
   },
   "keywords": [
     "base32",

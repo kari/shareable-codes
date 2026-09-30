@@ -20,6 +20,16 @@ decode("dd7d96yy");  // 123456 — case, dashes and I/L/O are normalized
 
 Valid numbers are the positive integers below `MAX_NUMBER` (34 359 738 368). Codes are `XXXX-XXXX`; for very small masked values the code is shorter (e.g. `encode(1393193079)` → `"YYYY-BN"`).
 
+## CLI
+
+The package also ships a small command line tool:
+
+```
+npx shareable-codes encode 123456     # DD7D-96YY
+npx shareable-codes decode DD7D-96YY  # 123456
+npx shareable-codes 123456            # all-digit input is encoded, anything else decoded
+```
+
 ## API
 
 - **`encode(n: number): string`** — encodes a positive integer. Throws an `Error` if `n` is out of range.

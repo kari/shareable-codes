@@ -1,60 +1,57 @@
-import { decode, encode, MAX_NUMBER } from './shareable-codes.ts';
+import { decode, encode, MAX_NUMBER } from "./shareable-codes.js";
 
-const inputEncode = <HTMLInputElement>document.getElementById("inputEncode")!;
-const inputDecode = <HTMLInputElement>document.getElementById("inputDecode")!;
+const inputEncode = document.getElementById("inputEncode") as HTMLInputElement;
+const inputDecode = document.getElementById("inputDecode") as HTMLInputElement;
 
 function encodeInput() {
-    const input = Number(inputEncode.value);
-    let result;
-    if (input < 1 || input >= MAX_NUMBER) {
-        inputEncode.className = "form-control is-invalid";
-        inputDecode.value = "";
-        return;
-    } else {
-        inputEncode.className = "form-control is-valid";
-        inputDecode.className = "form-control";
-    }
-    try {
-        result = encode(input);
-    }
-    catch(error) {
-        console.error(error);
-        inputEncode.className = "form-control is-invalid";
-        inputDecode.value = "";
-        return;
-    }
+	const input = Number(inputEncode.value);
+	if (input < 1 || input >= MAX_NUMBER) {
+		inputEncode.className = "form-control is-invalid";
+		inputDecode.value = "";
+		return;
+	}
+	inputEncode.className = "form-control is-valid";
+	inputDecode.className = "form-control";
+	let result: string | undefined;
+	try {
+		result = encode(input);
+	} catch (error) {
+		console.error(error);
+		inputEncode.className = "form-control is-invalid";
+		inputDecode.value = "";
+		return;
+	}
 
-    inputDecode.value = result;
+	inputDecode.value = result;
 }
 
 function decodeInput() {
-    const input = inputDecode.value;
-    let result;
-    if (input.length < 8 || input.length > 9) {
-        inputDecode.className = "form-control is-invalid";
-        inputEncode.value = "";
-        return;
-    }
-    try {
-        result = decode(input);
-    }
-    catch(error) {
-        console.error(error);
-        inputDecode.className = "form-control is-invalid";
-        inputEncode.value = "";
-        return;
-    }
-    if (result == 0) {
-        inputDecode.className = "form-control is-invalid";
-        inputEncode.value = "";
-        return;
-    }
-    inputDecode.className = "form-control is-valid";
-    inputEncode.className = "form-control";   
-    inputEncode.value = result.toString();
+	const input = inputDecode.value;
+	if (input.length < 8 || input.length > 9) {
+		inputDecode.className = "form-control is-invalid";
+		inputEncode.value = "";
+		return;
+	}
+	let result: number | undefined;
+	try {
+		result = decode(input);
+	} catch (error) {
+		console.error(error);
+		inputDecode.className = "form-control is-invalid";
+		inputEncode.value = "";
+		return;
+	}
+	if (result === 0) {
+		inputDecode.className = "form-control is-invalid";
+		inputEncode.value = "";
+		return;
+	}
+	inputDecode.className = "form-control is-valid";
+	inputEncode.className = "form-control";
+	inputEncode.value = result.toString();
 }
 
-(function () {
-    document.getElementById("encode")!.addEventListener("click", encodeInput);
-    document.getElementById("decode")!.addEventListener("click", decodeInput);
+(() => {
+	document.getElementById("encode")?.addEventListener("click", encodeInput);
+	document.getElementById("decode")?.addEventListener("click", decodeInput);
 })();

@@ -1,0 +1,21 @@
+{
+  "name": "shareable-codes",
+  "version": "1.0.0",
+  "description": "Human-shareable codes",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "esbuild src/main.ts --bundle --outdir=dist",
+    "serve": "node serve.mjs",
+    "start": "npm run serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kari/shareable-codes.git"
+  },
+  "homepage": "https://github.com/kari/shareable-codes",
+  "license": "MIT",
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  }
+}

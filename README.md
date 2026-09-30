@@ -50,7 +50,7 @@ then open <http://localhost:3000/>. Works in any browser with `BigInt` support (
 
 ## Development
 
-Requires Node.js 20+ (developed on 24 LTS).
+Requires Node.js 20+ (the version used in development and CI is pinned in [`.node-version`](.node-version)).
 
 - `npm test` — test suite (Node's built-in test runner)
 - `npm run typecheck` — TypeScript

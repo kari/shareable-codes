@@ -8,8 +8,10 @@
   "exports": {
     ".": {
       "types": "./dist/shareable-codes.d.ts",
-      "import": "./dist/shareable-codes.js"
-    }
+      "import": "./dist/shareable-codes.js",
+      "default": "./dist/shareable-codes.js"
+    },
+    "./package.json": "./package.json"
   },
   "files": [
     "cli.js",

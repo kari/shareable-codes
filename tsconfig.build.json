@@ -5,6 +5,8 @@
 		"moduleResolution": "NodeNext",
 		"lib": ["ES2022"],
 		"strict": true,
+		"isolatedModules": true,
+		"verbatimModuleSyntax": true,
 		"declaration": true,
 		"rootDir": "src",
 		"outDir": "dist"

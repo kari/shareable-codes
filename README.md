@@ -32,7 +32,7 @@ npx shareable-codes 123456            # all-digit input is encoded, anything els
 
 ## API
 
-- **`encode(n: number): string`** — encodes a positive integer. Throws an `Error` if `n` is out of range.
+- **`encode(n: number): string`** — encodes a positive integer. Throws a `RangeError` if `n` is out of range or not an integer.
 - **`decode(input: string): number`** — decodes a code, ignoring case, dashes, and ambiguous characters. Throws `ChecksumError` (a subclass of `Error`) if the check digit does not match, and an `Error` if the string contains invalid characters.
 - **`MAX_NUMBER`** — exclusive upper bound of the domain.
 - **`ChecksumError`** — the one error worth catching: it means a human made a typo.

@@ -168,13 +168,14 @@ function toArray(n: bigint): number[] {
  *
  * @param n a number
  * @returns a string
+ * @throws RangeError if n is not an integer in 1 ... MAX_NUMBER - 1
  */
 export function encode(n: number): string {
 	if (n >= MAX_NUMBER) {
-		throw new Error("Number is too large");
+		throw new RangeError("Number is too large");
 	}
 	if (n <= 0) {
-		throw new Error("Number has to be a positive integer");
+		throw new RangeError("Number has to be a positive integer");
 	}
 
 	const digits = toArray(bitmask(BigInt(n)));
@@ -205,6 +206,8 @@ export class ChecksumError extends Error {
  *
  * @param input an encoded string
  * @returns a number
+ * @throws ChecksumError if the check digit does not match
+ * @throws Error if the string contains invalid characters
  */
 export function decode(input: string): number {
 	const str = normalize(input);

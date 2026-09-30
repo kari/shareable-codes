@@ -9,10 +9,10 @@ describe('Encoder', () => {
         assert.equal(result, "DD7D-96YY");
     })
 
-    it('throws on too large value', () => {
+    it('throws RangeError on too large value', () => {
         assert.throws(() => {
             encode(34359738368);
-        })
+        }, RangeError)
     })
 
     it('handles close to max value', () => {
@@ -26,13 +26,16 @@ describe('Encoder', () => {
         assert.equal(decode("YYYY-BN"), 1393193079);
     })
 
-    it('throws on invalid input', () => {
+    it('throws RangeError on invalid input', () => {
         assert.throws(() => {
             encode(0);
-        });
+        }, RangeError);
         assert.throws(() => {
             encode(-1);
-        });
+        }, RangeError);
+        assert.throws(() => {
+            encode(1.5);
+        }, RangeError);
     })
 
 

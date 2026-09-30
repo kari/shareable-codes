@@ -29,9 +29,9 @@
     "test": "node --test",
     "typecheck": "tsc -p tsconfig.json",
     "build:lib": "tsc -p tsconfig.build.json",
-    "build:demo": "esbuild src/main.ts --bundle --outdir=dist",
+    "build:demo": "esbuild demo/main.ts --bundle --outdir=dist",
     "build": "npm run build:lib && npm run build:demo",
-    "serve": "node serve.mjs",
+    "serve": "node demo/serve.mjs",
     "start": "npm run serve",
     "prepublishOnly": "npm run build:lib && npm test"
   },

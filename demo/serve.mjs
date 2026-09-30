@@ -14,7 +14,8 @@ const contentTypes = {
 const server = createServer(async (req, res) => {
 	const pathname = decodeURIComponent(new URL(req.url, `http://localhost:${port}`).pathname);
 	const path = pathname.endsWith("/") ? pathname + "index.html" : pathname;
-	const file = resolve(join(root, path));
+	// the demo page lives in demo/; everything else (e.g. /dist/main.js) is repo-root relative
+	const file = resolve(join(root, path === "/index.html" ? "demo/index.html" : path));
 	if (file !== root && !file.startsWith(root + sep)) {
 		res.writeHead(403);
 		res.end("Forbidden");

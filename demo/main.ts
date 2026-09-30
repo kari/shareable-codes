@@ -1,4 +1,4 @@
-import { decode, encode, MAX_NUMBER } from "./shareable-codes.js";
+import { decode, encode, MAX_NUMBER } from "../src/shareable-codes.js";
 
 const inputEncode = document.getElementById("inputEncode") as HTMLInputElement;
 const inputDecode = document.getElementById("inputDecode") as HTMLInputElement;

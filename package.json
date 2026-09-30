@@ -1,21 +1,59 @@
 {
   "name": "shareable-codes",
   "version": "1.0.0",
-  "description": "Human-shareable codes",
+  "description": "Human-shareable codes: Crockford's Base32 idea with zBase32 alphabet order and a Damm checksum digit",
   "type": "module",
+  "main": "./dist/shareable-codes.js",
+  "types": "./dist/shareable-codes.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/shareable-codes.d.ts",
+      "import": "./dist/shareable-codes.js"
+    }
+  },
+  "files": [
+    "dist/shareable-codes.js",
+    "dist/shareable-codes.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "test": "node --test",
-    "build": "esbuild src/main.ts --bundle --outdir=dist",
+    "typecheck": "tsc -p tsconfig.json",
+    "build:lib": "tsc -p tsconfig.build.json",
+    "build:demo": "esbuild src/main.ts --bundle --outdir=dist",
+    "build": "npm run build:lib && npm run build:demo",
     "serve": "node serve.mjs",
-    "start": "npm run serve"
+    "start": "npm run serve",
+    "prepublishOnly": "npm test && npm run build:lib"
   },
+  "keywords": [
+    "base32",
+    "crockford",
+    "z-base-32",
+    "damm",
+    "checksum",
+    "human-readable",
+    "shareable",
+    "identifier"
+  ],
+  "author": "Kari Silvennoinen",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/kari/shareable-codes.git"
+    "url": "git+https://github.com/kari/shareable-codes.git"
   },
-  "homepage": "https://github.com/kari/shareable-codes",
-  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kari/shareable-codes/issues"
+  },
+  "homepage": "https://github.com/kari/shareable-codes#readme",
   "devDependencies": {
-    "esbuild": "^0.28.2"
+    "@types/node": "^26.6.3",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
   }
 }

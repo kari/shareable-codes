@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { encode, decode } from "../src/shareable-codes.ts";
+import { encode, decode, MAX_NUMBER, ChecksumError } from "../src/shareable-codes.ts";
 
 describe('Encoder', () => {
 
@@ -18,6 +18,12 @@ describe('Encoder', () => {
     it('handles close to max value', () => {
         const result = encode(34359738368-1);
         assert.equal(result.length, 9);
+    })
+
+    it('pads short masked values to 5 digits (issue #4)', () => {
+        // bitmask(1393193079) === 1, so the masked value has 1 digit and gets zero-padded
+        assert.equal(encode(1393193079), "YYYY-BN");
+        assert.equal(decode("YYYY-BN"), 1393193079);
     })
 
     it('throws on invalid input', () => {
@@ -53,10 +59,17 @@ describe('Decoder', () => {
         assert.equal(decode('6lYE-EoF4'), 83);
     })
 
-    it('throws on checksum fail', () => {
+    it('throws ChecksumError on checksum fail', () => {
         assert.throws(() => {
             decode('DD7D-96YX')
-        })
+        }, ChecksumError)
+    })
+
+    it('roundtrips random values across the whole domain', () => {
+        for (let i = 0; i < 1000; i++) {
+            const n = 1n + BigInt(Math.floor(Math.random() * Number.MAX_SAFE_INTEGER)) % (MAX_NUMBER - 1n);
+            assert.equal(decode(encode(Number(n))), Number(n));
+        }
     })
 
     it('throws on invalid input', () => {

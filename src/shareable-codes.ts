@@ -118,7 +118,7 @@ function normalize(str: string): string {
 		.replace(/[IL]/g, "1")
 		.replace(/O/g, "0");
 	if (!VALID_SYMBOLS.test(norm_str)) {
-		throw `string '${norm_str}' contains invalid characters`;
+		throw new Error(`string '${norm_str}' contains invalid characters`);
 	}
 
 	return norm_str;
@@ -171,10 +171,10 @@ function toArray(n: bigint): number[] {
  */
 export function encode(n: number): string {
 	if (n >= MAX_NUMBER) {
-		throw "Number is too large";
+		throw new Error("Number is too large");
 	}
 	if (n <= 0) {
-		throw "Number has to be a positive integer";
+		throw new Error("Number has to be a positive integer");
 	}
 
 	const digits = toArray(bitmask(BigInt(n)));
@@ -187,6 +187,17 @@ export function encode(n: number): string {
 	const code = arrToString(digits);
 
 	return [code.slice(0, 4), code.slice(4, 8)].join("-");
+}
+
+/**
+ * Thrown by decode when the input string fails the Damm checksum check,
+ * i.e. it contains a transcription error.
+ */
+export class ChecksumError extends Error {
+	constructor(message: string) {
+		super(message);
+		this.name = "ChecksumError";
+	}
 }
 
 /**
@@ -204,9 +215,9 @@ export function decode(input: string): number {
 	}
 
 	if (damm32(digits) !== 0) {
-		throw `invalid check value '${
+		throw new ChecksumError(`invalid check value '${
 			SYMBOLS[digits[digits.length - 1]]
-		}' for string '${str}'`;
+		}' for string '${str}'`);
 	}
 
 	digits.pop();
